@@ -6,7 +6,7 @@
 git clone https://github.com/shubhamkalsait/Flight-reservation.git
 ```
 
-2. Install Mysql Server and create database
+2. Deploy Database & Install Mysql Server and create database
 ```shell
 apt update -y
 apt install mysql-server -y
@@ -45,4 +45,5 @@ apt install apache2 -y
 cp dist/* /var/www/html/
 systemctl start apache2
 ```
+
 
