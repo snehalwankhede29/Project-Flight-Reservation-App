@@ -12,7 +12,7 @@ SonarQube
 Git & GitHub
 
 
-🏗️ Project Architecture Overview
+## Project Architecture Overview
 
 The application is deployed using:
 S3 → Frontend Hosting
@@ -22,7 +22,7 @@ SonarQube → Code Quality Analysis
 Jenkins → CI/CD Automation
 
 
-🖥️ Step 1: Launch Required Servers (EC2 Instances)
+# Step 1: Launch Required Servers (EC2 Instances)
 
 Three high-configuration Ubuntu servers were created:
 Server Name	Purpose	Port
@@ -31,7 +31,7 @@ SonarQube Server	Code Quality Analysis	9000
 Jenkins Server	    CI/CD Automation	    8080
 
 
-🌍 Step 2: Create Infrastructure Using Terraform
+# Step 2: Create Infrastructure Using Terraform
 
 From the Terraform Server:
 terraform init
@@ -43,7 +43,7 @@ S3 Bucket     → For Frontend Deployment
 EKS Cluster   → For Backend Deployment
 RDS Instance  → For Database
 
-🔍 Step 3: SonarQube Setup --- Install Sonarqube--refer
+# Step 3: SonarQube Setup --- Install Sonarqube--refer
 
 ## Access SonarQube:
 
@@ -61,18 +61,18 @@ mvn clean verify sonar:sonar \
   -Dsonar.token=<your-generated-token>
 
 
-⚙️ Step 4: Jenkins Configuration
+# Step 4: Jenkins Configuration
 
 ## Access Jenkins:
 http://<public-ip>:8080
 
-# Install Required Plugins:
+## Install Required Plugins:
 Git Plugin
 SonarQube Scanner
 Pipeline
 Pipeline Stage View
 
-# Integrate SonarQube in Jenkins:
+## Integrate SonarQube in Jenkins:
 
 Go to → Manage Jenkins
 Configure System
@@ -80,7 +80,7 @@ Add SonarQube Server
 Add Secret Text (Sonar Token)
 Restart Jenkins.
 
-🔄 Create Backend CI/CD Pipeline Stages
+# Create Backend CI/CD Pipeline Stages
 
 stage-1: Git Pull
 stage-2: Build (Maven)
@@ -88,7 +88,7 @@ stage-3: SonarQube Analysis
 stage-4: Docker Image Creation & Push
 stage-5: Deploy to Kubernetes (EKS)
 
-# Sample Build Stage
+## Sample Build Stage
 stage('Build') {
     steps {
         sh '''
@@ -98,7 +98,7 @@ stage('Build') {
     }
 }
 
-# Sample SonarQube Stage
+## Sample SonarQube Stage
 stage('SonarQube Analysis') {
     steps {
         withSonarQubeEnv('sonar') {
@@ -110,7 +110,7 @@ stage('SonarQube Analysis') {
     }
 }
 
-🐳 Docker Installation & Configuration in jenkins-server
+# Docker Installation & Configuration in jenkins-server
 
 sudo apt install docker.io -y
 
@@ -125,7 +125,7 @@ sudo cp -rvf .docker/ /var/lib/jenkins
 sudo chown jenkins -R /var/lib/jenkins/.docker/
 ☸️ Configure Kubernetes (EKS)
 
-# Build and Push Image:
+## Build and Push Image:
 docker build -t <dockerhub-name>/<docker-image-name>:latest .  
 docker push <dockerhub-name>/<docker-image-name>:latest
 docker rmi <dockerhub-name>/<docker-image-name>:latest  
@@ -143,12 +143,12 @@ stage('Docker-image') {
     }
 
 
-# Install AWS CLI & kubectl. -- refer
+## Install AWS CLI & kubectl. -- refer
 
 Update kubeconfig:
 aws eks update-kubeconfig --name <cluster-name> --region <region>
 
-# Sample Deploy Stage
+## Sample Deploy Stage
 stage('Deploy'){
             steps{
                 sh'''
@@ -158,13 +158,13 @@ stage('Deploy'){
             }
         }
 
-# Verify Cluster:
+## Verify Cluster:
 
 kubectl get nodes
 kubectl get pods
 kubectl get services
 
-# Copy configuration to Jenkins:
+## Copy configuration to Jenkins:
 
 sudo cp -rvf .kube/ /var/lib/jenkins/
 sudo chown jenkins -R /var/lib/jenkins/.kube/
@@ -175,7 +175,7 @@ sudo chown jenkins -R /var/lib/jenkins/.aws/
 sudo systemctl restart jenkins
 
 
-✅ Final Verification Checklist
+## ✅ Final Verification Checklist
 Terraform Infrastructure Created
 SonarQube Running on Port 9000
 Jenkins Running on Port 8080
