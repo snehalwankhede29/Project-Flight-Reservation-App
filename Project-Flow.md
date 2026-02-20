@@ -114,15 +114,14 @@ stage('SonarQube Analysis') {
 
 sudo apt install docker.io -y
 
-👤 Add Jenkins User to Docker Group
-sudo gpasswd -a jenkins docker
-su - jenkins
-exit
+## add Jenkins-user in docker-group
+   --> gpasswd -a docker jenkins  or usermod -aG docker jenkins
+   --> su - jenkins
+   --> exit
+   --> docker login, ls, ls -a
+   --> cp -rvf .docker/ /var/lib/jenkins
+   --> chown jenkins -R /var/lib/jenkins/.docker/
 
-Copy Docker credentials:
-
-sudo cp -rvf .docker/ /var/lib/jenkins
-sudo chown jenkins -R /var/lib/jenkins/.docker/
 ☸️ Configure Kubernetes (EKS)
 
 ## Build and Push Image:
@@ -166,13 +165,28 @@ kubectl get services
 
 ## Copy configuration to Jenkins:
 
-sudo cp -rvf .kube/ /var/lib/jenkins/
-sudo chown jenkins -R /var/lib/jenkins/.kube/
+->  ls -a
+->  cp -rvf .kube/ /var/lib/jenkins/
+->  chown jenkins -R /var/lib/jenkins/.kube/
 
-sudo cp -rvf .aws/ /var/lib/jenkins/
-sudo chown jenkins -R /var/lib/jenkins/.aws/
+-> cp -rvf .aws/ /var/lib/jenkins/
+-> chown jenkins -R /var/lib/jenkins/.aws/
 
-sudo systemctl restart jenkins
+-> systemctl restart jenkins
+
+## Deploy
+
+update--application.property---add endpoint,username,PW
+update--k8s-deployment.yaml---image name
+
+-> apt install mysql-client-core-8.0 --- on any-server
+-> mysql -h database-12345.c6tuim2g8bwa.us-east-1.rds.amazonaws.com -P 3306 -u admin -p
+give password                ---- SG must have all-tcp access
+
+-> create database Flightdb;
+-> SHOW DATABASES;
+
+# now upload edited git-repo and you will see pods are created
 
 
 ## ✅ Final Verification Checklist
