@@ -1,4 +1,4 @@
-# 🚀 Flight Reservation App – End-to-End CI/CD Deployment
+# 🚀 Flight Reservation App – End-to-End CI/CD Deployment 
 
 ## 📌 Project Overview
 
@@ -18,11 +18,8 @@ The deployment pipeline automates infrastructure provisioning, code quality anal
 * MySQL / Amazon RDS
 * Amazon S3
 
----
-
 # 🏗️ Architecture
 
-```
                 GitHub Repository
                         │
                         ▼
